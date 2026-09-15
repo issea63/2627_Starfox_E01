@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject aimObject;
     public Transform shipObject;
     public CinemachineSplineCart splineCart;
+    public TrailRenderer trailRenderer;
 
     [Header ("Stats")]
     public float xySpeed = 10f;
@@ -44,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
             axisMultiplier = 0f;
             zSpeed = 0f;
         }
+        trailRenderer.emitting = false;
 
         SetSpeed(zSpeed);
     }
@@ -85,7 +87,19 @@ public class PlayerMovement : MonoBehaviour
        var cartSpeed = splineCart.AutomaticDolly.Method as SplineAutoDolly.FixedSpeed;
         cartSpeed.Speed = zSpeed;
     }
-
+    public void Boost(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            SetSpeed(zSpeed * 3.5f);
+            trailRenderer.emitting = true;
+        }
+        else if(context.canceled)
+        {
+            SetSpeed(zSpeed);
+            trailRenderer.emitting = false;
+        }
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.purple;
