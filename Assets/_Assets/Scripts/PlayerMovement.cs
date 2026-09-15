@@ -2,6 +2,9 @@ using JetBrains.Annotations;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DG.Tweening;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public bool JonIsGay = true;
 
     [Header("Objects")]
+    public GameObject cameraHolder;
     public GameObject aimObject;
     public Transform shipObject;
     public CinemachineSplineCart splineCart;
@@ -21,6 +25,9 @@ public class PlayerMovement : MonoBehaviour
     public float lerpSpeed = .1f;
     public float axisMultiplier = 1f;
     public float zSpeed = .5f;
+    public float FOVValue;
+    public float zoomValue;
+    public float zoomDuration;
 
     [Header("Viewport Stats")]
     public float wireRadius = .5f;
@@ -45,6 +52,10 @@ public class PlayerMovement : MonoBehaviour
             axisMultiplier = 0f;
             zSpeed = 0f;
         }
+
+
+        FOV(FOVValue);
+
         trailRenderer.emitting = false;
 
         SetSpeed(zSpeed);
@@ -52,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         //MaxiIsGay = true;
+        FOV(FOVValue);
 
         Vector2 xyVector = moveAction.action.ReadValue<Vector2>();
         LocalMove(xyVector.x,xyVector.y, xySpeed);
@@ -99,6 +111,19 @@ public class PlayerMovement : MonoBehaviour
             SetSpeed(zSpeed);
             trailRenderer.emitting = false;
         }
+    }
+    void FOV(float FOVnumber)
+    {
+        cameraHolder.GetComponentInChildren<CinemachineCamera>().Lens.FieldOfView = FOVnumber;
+    }
+    void SetCameraZoom(float zoom, float duration)
+    {
+        cameraHolder.transform.DOLocalMoveZ(zoom, duration);
+    }
+    void Chromatic(float cValue)
+    {
+        Camera.main.GetComponent<Volume>().profile.TryGet(out ChromaticAberration c);
+        c.intensity.value = cValue;
     }
     private void OnDrawGizmos()
     {
