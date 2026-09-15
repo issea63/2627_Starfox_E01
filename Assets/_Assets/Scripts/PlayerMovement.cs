@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,12 +12,14 @@ public class PlayerMovement : MonoBehaviour
     [Header("Objects")]
     public GameObject aimObject;
     public Transform shipObject;
+    public CinemachineSplineCart splineCart;
 
     [Header ("Stats")]
     public float xySpeed = 10f;
     public float rotationSpeed = 100f;
     public float lerpSpeed = .1f;
     public float axisMultiplier = 1f;
+    public float zSpeed = .5f;
 
     [Header("Viewport Stats")]
     public float wireRadius = .5f;
@@ -26,17 +29,27 @@ public class PlayerMovement : MonoBehaviour
     
     void Start()
     {
-        MaxiIsGay = true;
         if(MaxiIsGay)
         {
             JonIsGay = true;
         }
         
         else JonIsGay = false;
+
+        if(JonIsGay == false)
+        {
+            xySpeed = 0f;
+            rotationSpeed = 0f;
+            lerpSpeed = 0f;
+            axisMultiplier = 0f;
+            zSpeed = 0f;
+        }
+
+        SetSpeed(zSpeed);
     }
     void Update()
     {
-        MaxiIsGay = true;
+        //MaxiIsGay = true;
 
         Vector2 xyVector = moveAction.action.ReadValue<Vector2>();
         LocalMove(xyVector.x,xyVector.y, xySpeed);
@@ -57,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void RotationLook(float h, float v, float speed)
     {
+        aimObject.transform.parent.position = Vector3.zero;
         aimObject.transform.localPosition = new Vector3(h, v, 2);
         gameObject.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(aimObject.transform.position), Mathf.Deg2Rad * speed * Time.deltaTime);
     }
@@ -64,6 +78,12 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 targetEulerAngles = target.localEulerAngles;
         target.localEulerAngles = new Vector3 (targetEulerAngles.x,targetEulerAngles.y,Mathf.LerpAngle(targetEulerAngles.z, -axis * tiltMultiplier, Time.deltaTime * lerpTime));
+    }
+
+    void SetSpeed(float zSpeed)
+    {
+       var cartSpeed = splineCart.AutomaticDolly.Method as SplineAutoDolly.FixedSpeed;
+        cartSpeed.Speed = zSpeed;
     }
 
     private void OnDrawGizmos()
