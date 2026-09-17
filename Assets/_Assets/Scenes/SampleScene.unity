@@ -2210,7 +2210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 216105745}
   - component: {fileID: 216105746}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Crosshair_16_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3367,8 +3367,7 @@ MonoBehaviour:
   axisMultiplier: 100
   zSpeed: 0.025
   FOVValue: 60
-  zoomValue: 0
-  zoomDuration: 0
+  rollDirection: 1
   wireRadius: 0.5
   moveAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!114 &406225200
@@ -3500,6 +3499,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 882e247c-bbe0-4e7e-8cf4-85d787d91a15
     m_ActionName: 'Player/Boost[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 406225199}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: Roll
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: -1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 265ea93f-227d-4725-bfa6-3e1389adaf91
+    m_ActionName: 'Player/RollRight[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 406225199}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: Roll
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1e57aedd-fb59-4da2-a34e-8c0cb143a543
+    m_ActionName: 'Player/RollLeft[/Keyboard/q]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: 

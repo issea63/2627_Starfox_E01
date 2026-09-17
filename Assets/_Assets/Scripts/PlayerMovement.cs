@@ -28,14 +28,14 @@ public class PlayerMovement : MonoBehaviour
     public float axisMultiplier = 1f;
     public float zSpeed = .5f;
     public float FOVValue;
-    public float zoomValue;
-    public float zoomDuration;
+    public int rollDirection;
 
     [Header("Viewport Stats")]
     public float wireRadius = .5f;
 
     [SerializeField]
     InputActionReference moveAction;
+
     
     void Start()
     {
@@ -85,6 +85,13 @@ public class PlayerMovement : MonoBehaviour
         aimObject.transform.localPosition = new Vector3(h, v, 2);
         gameObject.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(aimObject.transform.position), Mathf.Deg2Rad * speed * Time.deltaTime);
     }
+    public void Roll(int direction)
+    {
+        if (!DOTween.IsTweening(shipObject))
+        {
+            shipObject.DOLocalRotate(new Vector3(shipObject.localEulerAngles.x, shipObject.localEulerAngles.y, 360 * direction), 0.4f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
+        }
+    }
     void HorizontalTilt(Transform target, float axis,float tiltMultiplier, float lerpTime)
     {
         Vector3 targetEulerAngles = target.localEulerAngles;
@@ -105,6 +112,7 @@ public class PlayerMovement : MonoBehaviour
             FOV(60f);
             SetCameraZoom(-7f, .6f);
             Chromatic(1f);
+            rollDirection = rollDirection * -1;
         }
         else if(context.canceled)
         {
@@ -113,6 +121,7 @@ public class PlayerMovement : MonoBehaviour
             FOV(40f);
             SetCameraZoom(0, .6f);
             Chromatic(0f);
+            
 
         }
     }
