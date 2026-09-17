@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using DG.Tweening;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using DG.Tweening.Core;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public TrailRenderer trailRenderer;
 
     [Header ("Stats")]
+    
     public float xySpeed = 10f;
     public float rotationSpeed = 100f;
     public float lerpSpeed = .1f;
@@ -52,10 +54,6 @@ public class PlayerMovement : MonoBehaviour
             axisMultiplier = 0f;
             zSpeed = 0f;
         }
-
-
-        FOV(FOVValue);
-
         trailRenderer.emitting = false;
 
         SetSpeed(zSpeed);
@@ -63,7 +61,6 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         //MaxiIsGay = true;
-        FOV(FOVValue);
 
         Vector2 xyVector = moveAction.action.ReadValue<Vector2>();
         LocalMove(xyVector.x,xyVector.y, xySpeed);
@@ -105,16 +102,26 @@ public class PlayerMovement : MonoBehaviour
         {
             SetSpeed(zSpeed * 3.5f);
             trailRenderer.emitting = true;
+            FOV(60f);
+            SetCameraZoom(-7f, .6f);
+            Chromatic(1f);
         }
         else if(context.canceled)
         {
             SetSpeed(zSpeed);
             trailRenderer.emitting = false;
+            FOV(40f);
+            SetCameraZoom(0, .6f);
+            Chromatic(0f);
+
         }
     }
     void FOV(float FOVnumber)
     {
-        cameraHolder.GetComponentInChildren<CinemachineCamera>().Lens.FieldOfView = FOVnumber;
+        float FOV = cameraHolder.GetComponentInChildren<CinemachineCamera>().Lens.FieldOfView;
+        DOTween.To( ()=> FOV, x => cameraHolder.GetComponentInChildren<CinemachineCamera>().Lens.FieldOfView = x, FOVnumber, 0.5f);
+        
+        //cameraHolder.GetComponentInChildren<CinemachineCamera>().Lens.FieldOfView = FOVnumber;
     }
     void SetCameraZoom(float zoom, float duration)
     {
@@ -123,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
     void Chromatic(float cValue)
     {
         Camera.main.GetComponent<Volume>().profile.TryGet(out ChromaticAberration c);
-        c.intensity.value = cValue;
+        DOTween.To(() => c.intensity.value, y => c.intensity.value = y, cValue, 0.6f);
     }
     private void OnDrawGizmos()
     {
