@@ -527,7 +527,7 @@
                 {
                     "name": "",
                     "id": "c7f4077c-8c6c-4784-b619-7994aae0e3a0",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -548,8 +548,19 @@
                 },
                 {
                     "name": "",
+                    "id": "185c7b4a-2522-4e74-9539-f99d0f3896fb",
+                    "path": "<Gamepad>/rightStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RollRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "fe1bb272-2581-4174-b0cc-a0da0264acfe",
-                    "path": "<Keyboard>/q",
+                    "path": "<Gamepad>/rightStick/left",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
