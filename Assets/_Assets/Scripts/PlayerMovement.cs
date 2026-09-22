@@ -79,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
         pos.y = Mathf.Clamp01(pos.y);
         transform.position = Camera.main.ViewportToWorldPoint(pos);
     }
-    void RotationLook(float h, float v, float speed)
+    public void RotationLook(float h, float v, float speed)
     {
         aimObject.transform.parent.position = Vector3.zero;
         aimObject.transform.localPosition = new Vector3(h, v, 2);
