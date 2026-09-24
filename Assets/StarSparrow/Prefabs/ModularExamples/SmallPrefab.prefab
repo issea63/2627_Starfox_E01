@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2410839894811206605}
   m_Layer: 0
-  m_Name: StarSparrow12
+  m_Name: SmallPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

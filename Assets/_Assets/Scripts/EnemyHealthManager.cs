@@ -5,61 +5,60 @@ public class EnemyHealthManager : MonoBehaviour
     [Header("Objects")]
     public GameObject explosionEffect;
     public AudioSource explosionSound;
-    /*public GameObject originalPrefab;
     public GameObject bigPrefab;
     public GameObject smallPrefab;
     public GameObject normalPrefab;
-    public GameObject bossPrefab;*/
+    //public GameObject bossPrefab;
     [Header("Stats")]
+    public EnemyType enemyType;
     public float maximunHealth = 100f;
     public float currentHealth;
-    public float bigDamage;
-    public float smallDamage;
-    public float normalDamage;
-    public float bossDamage;
     [Header ("Scripts")]
     public Bullet bullet;
-    public enum EnemyType
+    public enum EnemyType {BigEnemy, SmallEnemy, BossEnemy, NormalEnemy}
+    void Start()
     {
-        BigEnemy,
-        SmallEnemy,
-        BossEnemy,
-        NormalEnemy
-    }
-    private void Start()
-    {
-        AssignStats(EnemyType.BigEnemy, 200f, bigDamage);
-        AssignStats(EnemyType.SmallEnemy, 40f, smallDamage);
-        AssignStats(EnemyType.NormalEnemy, 100f, normalDamage);
-        AssignStats(EnemyType.BossEnemy, 500f, bossDamage);
+        this.AssignStats();
         currentHealth = maximunHealth;
     }
-    public void AssignStats(EnemyType type, float health, float damage)
+    public void AssignStats()
     {
-        if (type == EnemyType.BigEnemy)
+        switch (enemyType)
         {
-            this.gameObject.GetComponent<HealthManager>().maximunHealth = health;
-            bullet.playerDamage = damage;
-            //bigPrefab.SetActive(true);
+            case EnemyType.BigEnemy:
+                this.gameObject.GetComponent<EnemyHealthManager>().maximunHealth = 200;
+                bullet.playerDamage = 5f;
+                bigPrefab.SetActive(true);
+                break;
+            case EnemyType.SmallEnemy:
+                this.gameObject.GetComponent<EnemyHealthManager>().maximunHealth = 40;
+                bullet.playerDamage = 20f;
+                smallPrefab.SetActive(true);
+                break;
+            case EnemyType.BossEnemy:
+                this.gameObject.GetComponent<EnemyHealthManager>().maximunHealth = 500;
+                bullet.playerDamage = 15f;
+                //bossPrefab.SetActive(true);
+                break;
+            case EnemyType.NormalEnemy:
+                this.gameObject.GetComponent<EnemyHealthManager>().maximunHealth = 100;
+                bullet.playerDamage = 10f;
+                normalPrefab.SetActive(true);
+                break;
         }
-        else if (type == EnemyType.SmallEnemy)
+    }
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth <= 0)
         {
-            this.gameObject.GetComponent<HealthManager>().maximunHealth = health;
-            bullet.playerDamage = damage;
-            //smallPrefab.SetActive(true);
+            Die();
         }
-        else if (type == EnemyType.NormalEnemy)
-        {
-            this.gameObject.GetComponent<HealthManager>().maximunHealth = health;
-            bullet.playerDamage = damage;
-            //normalPrefab.SetActive(true);
-        }
-        else if (type ==EnemyType.BossEnemy)
-        {
-            this.gameObject.GetComponent<HealthManager>().maximunHealth = health;
-            bullet.playerDamage = damage;
-            //bossPrefab.SetActive(true);
-        }
-
+    }
+    public void Die()
+    {
+        Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        explosionSound.Play();
+        Destroy(gameObject);
     }
 }

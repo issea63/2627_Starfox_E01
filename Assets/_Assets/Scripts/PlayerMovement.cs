@@ -90,6 +90,8 @@ public class PlayerMovement : MonoBehaviour
         if (!DOTween.IsTweening(shipObject))
         {
             shipObject.DOLocalRotate(new Vector3(shipObject.localEulerAngles.x, shipObject.localEulerAngles.y, 360 * direction), 0.4f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear);
+            gameObject.GetComponent<Collider>().enabled = false;
+            DOVirtual.DelayedCall(0.4f, () => gameObject.GetComponent<Collider>().enabled = true);
         }
     }
     void HorizontalTilt(Transform target, float axis,float tiltMultiplier, float lerpTime)
