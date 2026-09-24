@@ -4,7 +4,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     Rigidbody rb;
-
+    public float playerDamage;
     [Header("Stats")]
     public float bulletSpeed = 1.0f;
     private void Start()
@@ -21,11 +21,12 @@ public class Bullet : MonoBehaviour
     {
         if(other.CompareTag("Enemy"))
         {
-
-
-
             Debug.Log("EnemyHit");
             Destroy(gameObject);
+        }
+        else if(other.CompareTag("Player"))
+        {
+            other.GetComponent<HealthManager>().TakeDamage(playerDamage);
         }
     }
 }

@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: c22ebc2de4a4f064ca891431bd16222c
+AssetOrigin:
+  serializedVersion: 1
+  productId: 263326
+  packageName: HQ Explosions Pack FREE
+  packageVersion: 1.0
+  assetPath: Assets/HQ Explosions Pack FREE/Shaders/Explosion.shader
+  uploadId: 607778
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _Explosion_Tex: {fileID: 2800000, guid: ba9950503a1945d4e8f1d9a9e1151d73, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
