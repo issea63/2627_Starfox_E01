@@ -15,9 +15,10 @@ public class EnemyHealthManager : MonoBehaviour
     public float currentHealth;
     [Header ("Scripts")]
     public Bullet bullet;
-    public enum EnemyType {BigEnemy, SmallEnemy, BossEnemy, NormalEnemy}
+    public enum EnemyType {BigEnemy, SmallEnemy, NormalEnemy}
     void Start()
     {
+        enemyType = (EnemyType)Random.Range(0, 3);
         this.AssignStats();
         currentHealth = maximunHealth;
     }
@@ -34,11 +35,6 @@ public class EnemyHealthManager : MonoBehaviour
                 this.gameObject.GetComponent<EnemyHealthManager>().maximunHealth = 40;
                 bullet.playerDamage = 20f;
                 smallPrefab.SetActive(true);
-                break;
-            case EnemyType.BossEnemy:
-                this.gameObject.GetComponent<EnemyHealthManager>().maximunHealth = 500;
-                bullet.playerDamage = 15f;
-                //bossPrefab.SetActive(true);
                 break;
             case EnemyType.NormalEnemy:
                 this.gameObject.GetComponent<EnemyHealthManager>().maximunHealth = 100;
